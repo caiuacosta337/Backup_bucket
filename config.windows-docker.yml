@@ -1,0 +1,30 @@
+# Concrete example for running the container against C:\Temp\LOGS on Windows.
+source_path: /data/source
+# Replace with your real AWS bucket before running the script.
+bucket: backup-bucket-local-files
+region: sa-east-1
+retention_days: 30
+# Keep false if you want files stored individually under each date prefix.
+compress: false
+# This keeps Windows-hosted uploads grouped inside one logical folder in S3.
+s3_prefix: windows-logs
+# State lives on a mounted host folder so hashes survive container restarts.
+log_file: /app/state/backup.log
+state_file: /app/state/backup_state.json
+endpoint_url: null
+# Polling is the safest default for Docker Desktop on Windows.
+watch_mode: poll
+watch_interval_seconds: 60
+# Event mode uses this delay to batch several writes into one upload cycle.
+watch_debounce_seconds: 10
+# Enable and complete this block only if you want SMTP notifications.
+email:
+  enabled: false
+  host: smtp.example.com
+  port: 587
+  username: alerts@example.com
+  password: change-me
+  from: alerts@example.com
+  to:
+    - ops@example.com
+  use_tls: true

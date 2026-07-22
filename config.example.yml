@@ -1,0 +1,32 @@
+# Sample configuration for local runs or containerized runs.
+source_path: /data/source
+# Destination S3 bucket name.
+bucket: your-s3-bucket-name
+region: us-east-1
+retention_days: 30
+# Set to true to upload one ZIP archive per cycle instead of individual files.
+compress: false
+# Optional prefix inside the bucket before the date folder.
+s3_prefix: ""
+# Persist logs and file hashes outside ephemeral containers.
+log_file: /app/state/backup.log
+state_file: /app/state/backup_state.json
+# Use this only for S3-compatible services such as MinIO.
+endpoint_url: null
+# poll is safer for Windows Docker mounts; events is faster where supported.
+watch_mode: poll
+# Set to 0 for one-shot execution.
+watch_interval_seconds: 0
+# Only used by event watch mode.
+watch_debounce_seconds: 10
+# Optional SMTP notification block.
+email:
+  enabled: false
+  host: smtp.example.com
+  port: 587
+  username: alerts@example.com
+  password: change-me
+  from: alerts@example.com
+  to:
+    - ops@example.com
+  use_tls: true

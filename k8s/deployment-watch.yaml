@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backup-bucket-watch
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backup-bucket-watch
+  template:
+    metadata:
+      labels:
+        app: backup-bucket-watch
+    spec:
+      containers:
+        - name: backup
+          image: ghcr.io/caiuacosta337/backup-bucket:latest
+          imagePullPolicy: Always
+          command: ["python", "backup.py", "--config", "/app/config.yml", "--watch-interval", "60", "--watch-mode", "poll"]
+          envFrom:
+            - secretRef:
+                name: backup-aws
+          volumeMounts:
+            - name: config
+              mountPath: /app/config.yml
+              subPath: config.yml
+              readOnly: true
+            - name: source
+              mountPath: /data/source
+              readOnly: true
+            - name: state
+              mountPath: /app/state
+      volumes:
+        - name: config
+          configMap:
+            name: backup-config
+        - name: source
+          persistentVolumeClaim:
+            claimName: backup-source-pvc
+        - name: state
+          persistentVolumeClaim:
+            claimName: backup-state-pvc

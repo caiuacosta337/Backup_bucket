@@ -1,0 +1,6 @@
+# AWS S3 client.
+boto3==1.39.14
+# YAML configuration parsing.
+PyYAML==6.0.2
+# Optional filesystem event watching for event-driven mode.
+watchdog==6.0.0

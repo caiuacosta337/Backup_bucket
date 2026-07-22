@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: backup-config
+data:
+  config.yml: |
+    # Kubernetes profile: data path comes from a mounted volume at /data/source.
+    source_path: /data/source
+    bucket: backup-bucket-local-files
+    region: sa-east-1
+    retention_days: 30
+    compress: false
+    s3_prefix: k8s-backup
+    log_file: /app/state/backup.log
+    state_file: /app/state/backup_state.json
+    endpoint_url: null
+    watch_mode: poll
+    watch_interval_seconds: 0
+    watch_debounce_seconds: 10
+    email:
+      enabled: false
+      host: smtp.example.com
+      port: 587
+      username: alerts@example.com
+      password: change-me
+      from: alerts@example.com
+      to:
+        - ops@example.com
+      use_tls: true

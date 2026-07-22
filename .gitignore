@@ -1,0 +1,9 @@
+# Local Python environment and cache files.
+.venv/
+__pycache__/
+*.pyc
+
+# Runtime artifacts created by backup runs.
+state/
+config.yml
+*.log

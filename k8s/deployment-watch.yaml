@@ -12,11 +12,20 @@ spec:
       labels:
         app: backup-bucket-watch
     spec:
+      automountServiceAccountToken: false
       containers:
         - name: backup
-          image: ghcr.io/caiuacosta337/backup-bucket:latest
+          image: ghcr.io/caiuacosta337/backup-bucket:v1.0.0
           imagePullPolicy: Always
           command: ["python", "backup.py", "--config", "/app/config.yml", "--watch-interval", "60", "--watch-mode", "poll"]
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+              ephemeral-storage: "256Mi"
+            limits:
+              memory: "512Mi"
+              ephemeral-storage: "1Gi"
           envFrom:
             - secretRef:
                 name: backup-aws

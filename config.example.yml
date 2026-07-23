@@ -1,8 +1,8 @@
 # Sample configuration for local runs or containerized runs.
 source_path: /data/source
 # Destination S3 bucket name.
-bucket: your-s3-bucket-name
-region: us-east-1
+bucket: backup-bucket-local-files
+region: sa-east-1
 retention_days: 30
 # Set to true to upload one ZIP archive per cycle instead of individual files.
 compress: false

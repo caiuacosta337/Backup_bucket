@@ -17,8 +17,12 @@ COPY backup.py ./
 COPY config.example.yml ./
 COPY config.example.yml ./config.yml
 
-# Prepare writable folders for bind-mounted state and source data.
-RUN mkdir -p /app/state /data/source
+# Prepare writable folders for bind-mounted state and source data, then drop root privileges at runtime.
+RUN mkdir -p /app/state /data/source \
+	&& addgroup --system app \
+	&& adduser --system --ingroup app app \
+	&& chown -R app:app /app /data/source
+USER app
 
 # Default command can be overridden at docker run time.
 CMD ["python", "backup.py", "--config", "/app/config.yml"]
